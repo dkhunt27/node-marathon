@@ -1,0 +1,23 @@
+# Ignore OS X Hidden files
+.DS_Store
+
+# Ignore node_modules folder
+node_modules/
+
+# Ignore bower_components folder
+bower_components/
+
+# Ignore coverage folder
+coverage/
+
+# IDE related directories
+.idea/
+
+# New Relic log
+newrelic_agent.log
+
+# npm debug log
+npm-debug.log
+
+# secrets
+tests/realUrl.json

@@ -1,0 +1,28 @@
+{
+  "name": "node-marathon",
+  "version": "0.1.0",
+  "description": "Marathon v2 API client for Node.js",
+  "main": "api.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha ./tests/*.unit.tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkhunt27/node-marathon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dkhunt27/node-marathon/issues"
+  },
+  "homepage": "https://github.com/dkhunt27/node-marathon#readme",
+  "dependencies": {
+    "bluebird": "3.3.5",
+    "handlebars": "4.0.5",
+    "request-promise": "3.0.0",
+    "walk-sync": "0.2.6"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "dirty-chai": "1.2.2",
+    "mocha": "2.4.5"
+  }
+}
