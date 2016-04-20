@@ -1,6 +1,6 @@
 {
   "name": "node-marathon",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Marathon v2 API client for Node.js",
   "main": "api.js",
   "scripts": {
@@ -17,6 +17,7 @@
   "dependencies": {
     "bluebird": "3.3.5",
     "handlebars": "4.0.5",
+    "jsonschema": "1.1.0",
     "request-promise": "3.0.0",
     "walk-sync": "0.2.6"
   },

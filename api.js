@@ -4,115 +4,119 @@ module.exports = function Marathon(url, opts) {
 
   var rp = require('request-promise');
   var Promise = require('bluebird');
-  var Mock = require("./mock/mock.js");
   var utils = require("./utils.js");
-
-  var mock = {};
-
-  if (opts.mock) {
-    mock = new Mock();
-  }
-
-  var marathonApi = {
-    "apps": {
-      "list": {
-        "method": "GET",
-        "path": "/v2/apps"
-      },
-      "getById": {
-        "method": "GET",
-        "path": "/v2/apps/{{appId}}"
-      },
-      "restart": {
-        "method": "POST",
-        "path": "/v2/apps/{{appId}}/restart"
-      },
-      "create": {
-        "method": "POST",
-        "path": "/v2/apps"
-      }
-    }
-  };
 
   var callMarathon = function(fnInputs) {
     return new Promise(function (fulfill, reject) {
       var service = fnInputs.service;
       var action = fnInputs.action;
-      var inputs = fnInputs.inputs;
-      var urlParams = inputs.urlParams;
-      var qsParams = inputs.qsParams;
-      var body = inputs.body;
+      var inputs = fnInputs.inputs ? fnInputs.inputs : {};
+      var urlParams = inputs.urlParams ? inputs.urlParams : {};
+      var qsParams = inputs.qsParams ? inputs.qsParams : {};
+      var body = inputs.body ? inputs.body : {};
 
-      // calling of the marathon api is a generic wrapper with most of the configuration
-      // coming from the marathonApi object.  For better error handling, make sure
-      // called service/action exist in marathonApi
-      if (!marathonApi[service]) {
-        return reject("The marathonApi does not contain configuration for service:" + service);
-      }
-      if (!marathonApi[service][action]) {
-        return reject("The marathonApi." + service + " does not contain configuration for action:" + action);
-      }
-      if (!marathonApi[service][action].path) {
-        return reject("The marathonApi." + service + "." + action + " does not contain configuration for path");
-      }
-      if (!marathonApi[service][action].method) {
-        return reject("The marathonApi." + service + "." + action + " does not contain configuration for method");
-      }
+      var apiMap4Action, mock4Action, schema4Action, rpOptions;
 
-      try {
-        var path = utils.buildUrlPath(marathonApi[service][action].path, urlParams);
+      // LOAD THE API MAP
+      return utils.loadApiMap().then(function(apiMap) {
 
-        var finalUrl = utils.buildMarathonUrl(url, path);
-      } catch (err) {
-        return reject(err);
-      }
+        // THEN PARSE THE SERVICE/ACTION FROM API MAP
+        return utils.parseApiMap(apiMap, service, action);
 
-      if (opts.mock) {
+      }).then(function(apiMap4ActionTemp) {
 
-        // For better error handling, make sure called service/action exist in mocked
-        if (!opts.mockReject && !opts.mockFulfill) {
-          return reject("If opts.mock=true, then opts.mockReject or opts.mockFulfill must exist");
-        }
-        if (opts.mockReject && opts.mockFulfill) {
-          return reject("If opts.mock=true, then only one opts.mockReject or opts.mockFulfill can exist");
-        }
+        apiMap4Action = apiMap4ActionTemp;
 
-        var mocked = new Mock();
+        // THEN LOAD MOCK FOR SERVICE/ACTION
+        return utils.loadMock(service, action);
 
-        // For better error handling, make sure called service/action exist in mocked
-        if (!mocked[service]) {
-          return reject("The mocked does not contain configuration for service:" + service);
-        }
-        if (!mocked[service][action]) {
-          return reject("The mocked." + service + " does not contain configuration for action:" + action);
-        }
-        if (!mocked[service][action][opts.mockReject] && !mocked[service][action][opts.mockFulfill]) {
-          return reject("The mocked." + service + "." + action + " does not contain configuration for mockReject/mockFulfill:" + (opts.mockReject ? opts.mockReject : opts.mockFulfill));
-        }
+      }).then(function(mock4ActionTemp) {
 
-        if (opts.mockReject) {
-          return reject(mocked[service][action][opts.mockReject]);
+        mock4Action = mock4ActionTemp;
+
+        // THEN LOAD SCHEMA FOR SERVICE/ACTION
+        return utils.loadSchema(service, action);
+
+      }).then(function(schema4ActionTemp) {
+
+        schema4Action = schema4ActionTemp;
+
+        // THEN VALIDATE INPUTS AGAINST SCHEMA
+        return utils.schemaValidate(inputs, schema4Action);
+
+      }).then(function(schemaValidationResults) {
+
+        if (!opts.mock) {
+          // THIS IS NOT A MOCK CALL
+
+          // THEN BUILD THE URL PATH
+          return utils.buildUrlPath(apiMap4Action.path, urlParams).then(function(urlPath) {
+
+            // THEN BUILD THE FULL/FINAL URL
+            return utils.buildMarathonUrl(url, urlPath);
+
+          }).then(function(finalMarathonUrl) {
+
+            rpOptions = {
+              method: apiMap4Action.method,
+              uri: finalMarathonUrl,
+              qs: qsParams,
+              body: body,
+              simple: true,
+              json: true
+            };
+
+            // THEN CALL MARATHON
+            return rp(rpOptions).then(function(results) {
+
+              return fulfill(results);
+
+            });
+          });
+
         } else {
-          return fulfill(mocked[service][action][opts.mockFulfill]);
+          // THIS IS A MOCK CALL
+
+          // VALIDATE MOCK INPUTS
+          return utils.validateMockInputs(opts, mock4Action).then(function() {
+
+            if (opts.mockReject) {
+
+              return reject(mock4Action[opts.mockReject]);
+
+            } else {
+
+              return fulfill(mock4Action[opts.mockFulfill]);
+
+            }
+
+          });
         }
-      } else {
+      }).catch(function (caught) {
 
-        var rpOptions = {
-          method: marathonApi[service][action].method,
-          uri: finalUrl,
-          qs: qsParams,
-          body: body,
-          simple: true,
-          json: true // Automatically parses the JSON string in the response
-        };
+        if (caught.schema && caught.errors && caught.errors.length > 0) {
+          // assuming schema validation result error
 
-        return rp(rpOptions).then(function (resolved) {
-          return fulfill(resolved);
-        }).catch(function (caught) {
+          var errMsg = "Inputs failed schema validation. Validation Error(s): ";
+
+          caught.errors.forEach(function(error, index) {
+            errMsg = errMsg + error;
+            if (index < caught.errors.length - 1) {
+              errMsg = errMsg + ", ";
+            }
+          });
+
+          caught = errMsg;
+        }
+        else if (rpOptions) {
+
           caught.rpOptions = rpOptions;
-          return reject(caught);
-        });
-      }
+
+        }
+
+        return reject(caught);
+
+      });
     });
   };
 

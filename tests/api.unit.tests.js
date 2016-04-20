@@ -2,7 +2,9 @@ describe('api.unit.tests.js', function(){
   "use strict";
 
   var path = require("path");
-  var expect = require("chai").expect;
+  var chai = require("chai");
+  var expect = chai.expect;
+  chai.use(require("dirty-chai"));
 
   var testFolder = '/tests';
   var rootFolder = '/node-marathon';

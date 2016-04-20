@@ -1,0 +1,21 @@
+{
+  "id": "/SimpleAddress",
+  "type": "object",
+  "properties": {
+    "urlParams": {
+      "type": "object",
+      "properties": {
+        "appId": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "qsParams": {
+      "type": "object"
+    },
+    "body": {
+      "type": "object"
+    }
+  }
+}

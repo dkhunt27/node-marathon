@@ -1,0 +1,17 @@
+{
+  "id": "/SimpleAddress",
+  "type": "object",
+  "properties": {
+    "urlParams": {
+      "type": "object"
+    },
+    "qsParams": {
+      "type": "object"
+    },
+    "body": {
+      "type": "object"
+    }
+  },
+  "required": [
+  ]
+}

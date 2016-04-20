@@ -1,0 +1,22 @@
+{
+  "apps": {
+    "list": {
+      "method": "GET",
+      "path": "/v2/apps",
+      "desc": "List all running apps",
+      "schema": ""
+    },
+    "getById": {
+      "method": "GET",
+      "path": "/v2/apps/{{appId}}"
+    },
+    "restart": {
+      "method": "POST",
+      "path": "/v2/apps/{{appId}}/restart"
+    },
+    "create": {
+      "method": "POST",
+      "path": "/v2/apps"
+    }
+  }
+}
