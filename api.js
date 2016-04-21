@@ -1,8 +1,7 @@
 "use strict";
 
 module.exports = function Marathon(url, opts) {
-
-  var rp = require('request-promise');
+  
   var Promise = require('bluebird');
   var utils = require("./utils.js");
 
@@ -15,7 +14,7 @@ module.exports = function Marathon(url, opts) {
       var qsParams = inputs.qsParams ? inputs.qsParams : {};
       var body = inputs.body ? inputs.body : {};
 
-      var apiMap4Action, mock4Action, schema4Action, rpOptions;
+      var apiMap4Action, mock4Action, schema4Action, requestOptions;
 
       // LOAD THE API MAP
       return utils.loadApiMap().then(function(apiMap) {
@@ -57,7 +56,7 @@ module.exports = function Marathon(url, opts) {
 
           }).then(function(finalMarathonUrl) {
 
-            rpOptions = {
+            requestOptions = {
               method: apiMap4Action.method,
               uri: finalMarathonUrl,
               qs: qsParams,
@@ -68,7 +67,7 @@ module.exports = function Marathon(url, opts) {
             };
 
             // THEN CALL MARATHON
-            return rp(rpOptions).then(function(results) {
+            return utils.makeRequest(requestOptions).then(function(results) {
 
               return fulfill(results);
 
@@ -109,9 +108,9 @@ module.exports = function Marathon(url, opts) {
 
           caught = errMsg;
         }
-        else if (rpOptions) {
+        else if (requestOptions) {
 
-          caught.rpOptions = rpOptions;
+          caught.requestOptions = requestOptions;
 
         }
 

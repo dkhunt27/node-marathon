@@ -8,9 +8,10 @@ module.exports = function utils() {
   var Promise = require('bluebird');
   var Validator = require('jsonschema').Validator;
   var validator = new Validator();
+  var rp = require('request-promise');
 
   var buildMarathonUrl = function(url, path) {
-    return new Promise(function(fulfill, reject) {
+    return new Promise(function(fulfill) {
       // TODO: add handling for unexpected leading/trailing slashes
       return fulfill(url + path);
     });
@@ -46,7 +47,7 @@ module.exports = function utils() {
   };
 
   var loadApiMap = function() {
-    return new Promise(function(fulfill, reject) {
+    return new Promise(function(fulfill) {
 
       var apiMap = require("./apiMap.json");
 
@@ -58,6 +59,9 @@ module.exports = function utils() {
     return new Promise(function(fulfill, reject) {
 
       // parse the api map
+      if (!apiMap) {
+        return reject("apiMap must exist");
+      }
       if (!apiMap[service]) {
         return reject("The apiMap does not contain configuration for service:" + service);
       }
@@ -144,6 +148,10 @@ module.exports = function utils() {
   var validateMockInputs = function(opts, mock4Action) {
     return new Promise(function(fulfill, reject) {
 
+      if (!opts) {
+        return reject("opts must exist");
+      }
+
       if (!opts.mockReject && !opts.mockFulfill) {
         return reject("If opts.mock=true, then opts.mockReject or opts.mockFulfill must exist");
       }
@@ -160,6 +168,12 @@ module.exports = function utils() {
     });
   };
 
+  var makeRequest = function(options) {
+    // couldn't sinon'd rp directly since it is constructor base
+    // this simple wrapper function allows main api testing to sinon it
+
+    return rp(options);
+  };
 
   return {
     buildMarathonUrl: buildMarathonUrl,
@@ -169,6 +183,7 @@ module.exports = function utils() {
     loadSchema: loadSchema,
     schemaValidate: schemaValidate,
     loadMock: loadMock,
-    validateMockInputs: validateMockInputs
+    validateMockInputs: validateMockInputs,
+    makeRequest: makeRequest
   };
 }();

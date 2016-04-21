@@ -1,6 +1,6 @@
 {
   "name": "node-marathon",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Marathon v2 API client for Node.js",
   "main": "api.js",
   "scripts": {
@@ -24,6 +24,18 @@
   "devDependencies": {
     "chai": "3.5.0",
     "dirty-chai": "1.2.2",
-    "mocha": "2.4.5"
+    "gulp": "3.9.1",
+    "gulp-exit": "0.0.2",
+    "gulp-istanbul": "0.10.4",
+    "gulp-jshint": "2.0.0",
+    "gulp-mocha": "2.2.0",
+    "gulp-task-list": "0.0.1",
+    "gulp-util": "3.0.7",
+    "jshint": "2.9.2",
+    "jshint-stylish": "2.1.0",
+    "mocha": "2.4.5",
+    "run-sequence": "1.1.5",
+    "through2": "2.0.1",
+    "underscore": "1.8.3"
   }
 }

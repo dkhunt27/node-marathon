@@ -8,7 +8,8 @@ module.exports = function Mock() {
   var mockedResults = {};
 
   // walk the mock directory
-  var files = walk(__dirname, {globs: ['**/*.json'] });
+  var mockDir = path.join(__dirname, "..", "mock");
+  var files = walk(mockDir, {globs: ['**/*.json'] });
 
   files.forEach(function(file) {
     var parts = file.split('/');
@@ -30,7 +31,7 @@ module.exports = function Mock() {
       mockedResults[service][action] = {};
     }
 
-    mockedResults[service][action][status] = require(path.join(__dirname, service, action, statusFile));
+    mockedResults[service][action][status] = require(path.join(mockDir, service, action, statusFile));
 
   });
 

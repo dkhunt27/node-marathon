@@ -96,6 +96,24 @@ describe('utils.unit.tests.js', function(){
       beforeEach(function(){
         url = "http://someUrl/";
       });
+      describe ('given no urlParams', function() {
+        beforeEach(function () {
+          urlParams = null;
+        });
+        describe('when called', function () {
+          beforeEach(function (done) {
+            functionToTest(url, urlParams)
+              .then(setFulfilled, setRejected)
+              .catch(setCaught)
+              .finally(done);
+          });
+          it('then should reject with expected results', function () {
+            expect(caught, 'caught').to.equal(null);
+            expect(rejected, 'rejected').to.equal("urlParams must exist");
+            expect(fulfilled, 'fulfilled').to.equal(null);
+          });
+        });
+      });
       describe ('given empty urlParams', function() {
         beforeEach(function () {
           urlParams = {};
@@ -171,6 +189,283 @@ describe('utils.unit.tests.js', function(){
             expect(rejected, 'rejected').to.equal(null);
             expect(fulfilled, 'fulfilled').to.equal("http://someUrl/abc");
           });
+        });
+      });
+    });
+    describe ('given no url', function(){
+      beforeEach(function(){
+        url = null;
+      });
+      describe ('given empty urlParams', function() {
+        beforeEach(function () {
+          urlParams = {};
+        });
+        describe('when called', function () {
+          beforeEach(function (done) {
+            functionToTest(url, urlParams)
+              .then(setFulfilled, setRejected)
+              .catch(setCaught)
+              .finally(done);
+          });
+          it('then should fulfill with expected results', function () {
+            expect(caught, 'caught').to.equal(null);
+            expect(rejected, 'rejected').to.equal("url must exist");
+            expect(fulfilled, 'fulfilled').to.equal(null);
+          });
+        });
+      });
+    });
+  });
+  describe('parseApiMap', function() {
+    var fnName, apiMap, service, action;
+    beforeEach(function () {
+      fnName = "parseApiMap";
+      apiMap = null;
+      service = null;
+      action = null;
+    });
+    describe('given valid apiMap', function () {
+      beforeEach(function () {
+        apiMap = {
+          "someService": {
+            "someAction": {
+              "path": "somePath",
+              "method": "someMethod"
+            }
+          }
+        };
+      });
+      describe('given valid service', function () {
+        beforeEach(function () {
+          service = "someService";
+        });
+        describe('given valid action', function () {
+          beforeEach(function () {
+            action = "someAction";
+          });
+          describe('when called', function () {
+            beforeEach(function (done) {
+
+              functionToTest = buildFunctionToTest(fnName);
+
+              functionToTest(apiMap, service, action)
+                .then(setFulfilled, setRejected)
+                .catch(setCaught)
+                .finally(done);
+            });
+            it('then should fulfill with expected results', function () {
+              expect(caught, 'caught').to.equal(null);
+              expect(rejected, 'rejected').to.equal(null);
+              expect(fulfilled, 'fulfilled').to.deep.equal({
+                "path": "somePath",
+                "method": "someMethod"
+              });
+            });
+          });
+        });
+        describe('given invalid action', function () {
+          beforeEach(function () {
+            action = "notValidAction";
+          });
+          describe('when called', function () {
+            beforeEach(function (done) {
+
+              functionToTest = buildFunctionToTest(fnName);
+
+              functionToTest(apiMap, service, action)
+                .then(setFulfilled, setRejected)
+                .catch(setCaught)
+                .finally(done);
+            });
+            it('then should reject with expected results', function () {
+              expect(caught, 'caught').to.equal(null);
+              expect(rejected, 'rejected').to.equal("The apiMap.someService does not contain configuration for action:notValidAction");
+              expect(fulfilled, 'fulfilled').to.equal(null);
+            });
+          });
+        });
+      });
+      describe('given invalid service', function () {
+        beforeEach(function () {
+          service = "notValidService";
+          action = "someAction";
+        });
+        describe('when called', function () {
+          beforeEach(function (done) {
+
+            functionToTest = buildFunctionToTest(fnName);
+
+            functionToTest(apiMap, service, action)
+              .then(setFulfilled, setRejected)
+              .catch(setCaught)
+              .finally(done);
+          });
+          it('then should reject with expected results', function () {
+            expect(caught, 'caught').to.equal(null);
+            expect(rejected, 'rejected').to.equal("The apiMap does not contain configuration for service:notValidService");
+            expect(fulfilled, 'fulfilled').to.equal(null);
+          });
+        });
+      });
+    });
+    describe('given no apiMap', function () {
+      beforeEach(function () {
+        apiMap = null;
+        service = "someService";
+        action = "someAction";
+      });
+      describe('when called', function () {
+        beforeEach(function (done) {
+
+          functionToTest = buildFunctionToTest(fnName);
+
+          functionToTest(apiMap, service, action)
+            .then(setFulfilled, setRejected)
+            .catch(setCaught)
+            .finally(done);
+        });
+        it('then should reject with expected results', function () {
+          expect(caught, 'caught').to.equal(null);
+          expect(rejected, 'rejected').to.equal("apiMap must exist");
+          expect(fulfilled, 'fulfilled').to.equal(null);
+        });
+      });
+    });
+  });
+  describe('validateMockInputs', function() {
+    var fnName, opts, mock4Action;
+    beforeEach(function () {
+      fnName = "validateMockInputs";
+      opts = null;
+      mock4Action = null;
+    });
+    describe('given valid opts', function () {
+      beforeEach(function () {
+        opts = {
+          "mockReject": "foo"
+        };
+      });
+      describe('given valid mock4Action', function () {
+        beforeEach(function () {
+          mock4Action = {
+            "foo": "bar"
+          };
+        });
+        describe('when called', function () {
+          beforeEach(function (done) {
+
+            functionToTest = buildFunctionToTest(fnName);
+
+            functionToTest(opts, mock4Action)
+              .then(setFulfilled, setRejected)
+              .catch(setCaught)
+              .finally(done);
+          });
+          it('then should fulfill with expected results', function () {
+            expect(caught, 'caught').to.equal(null);
+            expect(rejected, 'rejected').to.equal(null);
+            expect(fulfilled, 'fulfilled').to.equal("valid");
+          });
+        });
+      });
+      describe('given invalid mock4Action', function () {
+        beforeEach(function () {
+          mock4Action = {
+            "notFoo": "bar"
+          };
+        });
+        describe('when called', function () {
+          beforeEach(function (done) {
+
+            functionToTest = buildFunctionToTest(fnName);
+
+            functionToTest(opts, mock4Action)
+              .then(setFulfilled, setRejected)
+              .catch(setCaught)
+              .finally(done);
+          });
+          it('then should reject with expected results', function () {
+            expect(caught, 'caught').to.equal(null);
+            expect(rejected, 'rejected').to.equal("The mock4Action does not contain configuration for mockReject/mockFulfill:foo");
+            expect(fulfilled, 'fulfilled').to.equal(null);
+          });
+        });
+      });
+    });
+    describe('given invalid opts (no mockReject/mockFulfill)', function () {
+      beforeEach(function () {
+        opts = {
+          "not": "correct"
+        };
+        mock4Action = {
+          "foo": "bar"
+        };
+      });
+      describe('when called', function () {
+        beforeEach(function (done) {
+
+          functionToTest = buildFunctionToTest(fnName);
+
+          functionToTest(opts, mock4Action)
+            .then(setFulfilled, setRejected)
+            .catch(setCaught)
+            .finally(done);
+        });
+        it('then should reject with expected results', function () {
+          expect(caught, 'caught').to.equal(null);
+          expect(rejected, 'rejected').to.equal("If opts.mock=true, then opts.mockReject or opts.mockFulfill must exist");
+          expect(fulfilled, 'fulfilled').to.equal(null);
+        });
+      });
+    });
+    describe('given invalid opts (both mockReject/mockFulfill)', function () {
+      beforeEach(function () {
+        opts = {
+          "mockReject": "foo",
+          "mockFulfill": "foo"
+        };
+        mock4Action = {
+          "foo": "bar"
+        };
+      });
+      describe('when called', function () {
+        beforeEach(function (done) {
+
+          functionToTest = buildFunctionToTest(fnName);
+
+          functionToTest(opts, mock4Action)
+            .then(setFulfilled, setRejected)
+            .catch(setCaught)
+            .finally(done);
+        });
+        it('then should reject with expected results', function () {
+          expect(caught, 'caught').to.equal(null);
+          expect(rejected, 'rejected').to.equal("If opts.mock=true, then only one opts.mockReject or opts.mockFulfill can exist");
+          expect(fulfilled, 'fulfilled').to.equal(null);
+        });
+      });
+    });
+    describe('given no opts', function () {
+      beforeEach(function () {
+        opts = null;
+        mock4Action = {
+          "foo": "bar"
+        };
+      });
+      describe('when called', function () {
+        beforeEach(function (done) {
+
+          functionToTest = buildFunctionToTest(fnName);
+
+          functionToTest(opts, mock4Action)
+            .then(setFulfilled, setRejected)
+            .catch(setCaught)
+            .finally(done);
+        });
+        it('then should reject with expected results', function () {
+          expect(caught, 'caught').to.equal(null);
+          expect(rejected, 'rejected').to.equal("opts must exist");
+          expect(fulfilled, 'fulfilled').to.equal(null);
         });
       });
     });
