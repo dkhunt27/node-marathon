@@ -113,6 +113,85 @@ describe('api.integration.tests.js', function(){
         });
       });
     });
+    describe ('list?id&embed', function(){
+      beforeEach(function(){
+        methodToCall = "list";
+        qsParams = { "id": "/test/hello-world/1.0.0", "embed": ["apps.lastTaskFailure"] };
+        functionToTest = buildFunctionToTest(serviceToCall, methodToCall);
+      });
+      describe('when called', function () {
+        beforeEach(function (done) {
+          functionToTest({qsParams:qsParams})
+            .then(setFulfilled, setRejected)
+            .catch(setCaught)
+            .finally(done);
+        });
+
+        it('then should return fulfilled promise with a list of apps', function () {
+          expect(caught, 'caught').to.equal(null);
+          expect(rejected, 'rejected').to.equal(null);
+          expect(fulfilled, 'fulfilled').to.exist();
+          expect(fulfilled.apps, 'fulfilled.apps').to.exist();
+          expect(fulfilled.apps.length, 'fulfilled.apps.length').to.exist();
+          expect(fulfilled.apps.length, 'fulfilled.apps.length').to.equal(1);
+          expect(fulfilled.apps[0].id, 'fulfilled.apps[0].id').to.equal("/test/hello-world/1.0.0");
+          expect(fulfilled.apps[0].lastTaskFailure, 'fulfilled.apps[0].lastTaskFailure').to.exist();
+        });
+      });
+    });
+    describe ('list?id&embed', function(){
+      beforeEach(function(){
+        methodToCall = "list";
+        qsParams = { "id": "/test/hello-world/1.0.0", "embed": ["apps.taskStats"] };
+        functionToTest = buildFunctionToTest(serviceToCall, methodToCall);
+      });
+      describe('when called', function () {
+        beforeEach(function (done) {
+          functionToTest({qsParams:qsParams})
+            .then(setFulfilled, setRejected)
+            .catch(setCaught)
+            .finally(done);
+        });
+
+        it('then should return fulfilled promise with a list of apps', function () {
+          expect(caught, 'caught').to.equal(null);
+          expect(rejected, 'rejected').to.equal(null);
+          expect(fulfilled, 'fulfilled').to.exist();
+          expect(fulfilled.apps, 'fulfilled.apps').to.exist();
+          expect(fulfilled.apps.length, 'fulfilled.apps.length').to.exist();
+          expect(fulfilled.apps.length, 'fulfilled.apps.length').to.equal(1);
+          expect(fulfilled.apps[0].id, 'fulfilled.apps[0].id').to.equal("/test/hello-world/1.0.0");
+          expect(fulfilled.apps[0].taskStats, 'fulfilled.apps[0].taskStats').to.exist();
+        });
+      });
+    });
+    describe ('list?id&embed&embed', function(){
+      beforeEach(function(){
+        methodToCall = "list";
+        qsParams = { "id": "/test/hello-world/1.0.0", "embed": ["apps.taskStats", "apps.lastTaskFailure"] };
+        functionToTest = buildFunctionToTest(serviceToCall, methodToCall);
+      });
+      describe('when called', function () {
+        beforeEach(function (done) {
+          functionToTest({qsParams:qsParams})
+            .then(setFulfilled, setRejected)
+            .catch(setCaught)
+            .finally(done);
+        });
+
+        it('then should return fulfilled promise with a list of apps', function () {
+          expect(caught, 'caught').to.equal(null);
+          expect(rejected, 'rejected').to.equal(null);
+          expect(fulfilled, 'fulfilled').to.exist();
+          expect(fulfilled.apps, 'fulfilled.apps').to.exist();
+          expect(fulfilled.apps.length, 'fulfilled.apps.length').to.exist();
+          expect(fulfilled.apps.length, 'fulfilled.apps.length').to.equal(1);
+          expect(fulfilled.apps[0].id, 'fulfilled.apps[0].id').to.equal("/test/hello-world/1.0.0");
+          expect(fulfilled.apps[0].lastTaskFailure, 'fulfilled.apps[0].lastTaskFailure').to.exist();
+          expect(fulfilled.apps[0].taskStats, 'fulfilled.apps[0].taskStats').to.exist();
+        });
+      });
+    });
   });
 
   describe('apps', function() {

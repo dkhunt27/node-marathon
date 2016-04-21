@@ -3,8 +3,7 @@
     "list": {
       "method": "GET",
       "path": "/v2/apps",
-      "desc": "List all running apps",
-      "schema": ""
+      "desc": "List all running apps"
     },
     "getById": {
       "method": "GET",

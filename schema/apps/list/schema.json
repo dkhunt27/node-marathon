@@ -1,17 +1,41 @@
 {
-  "id": "/SimpleAddress",
   "type": "object",
   "properties": {
     "urlParams": {
-      "type": "object"
+      "type": "object",
+      "required": true,
+      "properties": {},
+      "additionalProperties": false
     },
     "qsParams": {
-      "type": "object"
+      "type": "object",
+      "required": true,
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "embed": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "enum": [ "apps.tasks", "apps.counts", "apps.deployments", "apps.lastTaskFailure", "apps.failures", "apps.taskStats" ]
+          },
+          "uniqueItems": true
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     },
     "body": {
-      "type": "object"
+      "type": "object",
+      "required": true,
+      "properties": {},
+      "additionalProperties": false
     }
-  },
-  "required": [
-  ]
+  }
 }

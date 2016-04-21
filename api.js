@@ -42,9 +42,9 @@ module.exports = function Marathon(url, opts) {
         schema4Action = schema4ActionTemp;
 
         // THEN VALIDATE INPUTS AGAINST SCHEMA
-        return utils.schemaValidate(inputs, schema4Action);
+        return utils.schemaValidate({urlParams: urlParams, qsParams: qsParams, body: body}, schema4Action);
 
-      }).then(function(schemaValidationResults) {
+      }).then(function() {
 
         if (!opts.mock) {
           // THIS IS NOT A MOCK CALL
@@ -61,6 +61,7 @@ module.exports = function Marathon(url, opts) {
               method: apiMap4Action.method,
               uri: finalMarathonUrl,
               qs: qsParams,
+              useQuerystring: true,
               body: body,
               simple: true,
               json: true

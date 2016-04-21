@@ -14,7 +14,7 @@ describe('api.unit.tests.js', function(){
 
   expect(rootPath.slice(rootFolder.length * -1), 'rootPath').to.equal(rootFolder);    //make sure the rootPath is correct
 
-  var fakeUrl, fakeOptions, functionToTest, service, action, urlParams, qsParams, body;
+  var fakeUrl, fakeOptions, functionToTest, service, action, urlParams, qsParams, body, settingToNothingSoItWillDefault;
 
 
   var Mock = require(path.join(rootPath, "mock/mock.js"));
@@ -83,18 +83,28 @@ describe('api.unit.tests.js', function(){
       beforeEach(function(){
         action = "list";
       });
-      describe ('that will fulfill with 200', function() {
+      describe ('given valid inputs', function() {
         beforeEach(function () {
+          urlParams = settingToNothingSoItWillDefault;
 
-          fakeOptions.mockFulfill = "OK200";
+          qsParams = settingToNothingSoItWillDefault;
 
-          toBeTested = require(path.join(rootPath, 'api.js'))(fakeUrl, fakeOptions);
-
-          functionToTest = buildFunctionToTest(service, action);
+          body = settingToNothingSoItWillDefault;
         });
-        describe('when called', function () {
+        describe('when called (mocked OK200)', function () {
           beforeEach(function (done) {
-            functionToTest({urlParams: urlParams, qsParams: qsParams, body: body})
+
+            fakeOptions.mockFulfill = "OK200";
+
+            toBeTested = require(path.join(rootPath, 'api.js'))(fakeUrl, fakeOptions);
+
+            functionToTest = buildFunctionToTest(service, action);
+
+            functionToTest({
+              urlParams: urlParams,
+              qsParams: qsParams,
+              body: body
+            })
               .then(setFulfilled, setRejected)
               .catch(setCaught)
               .finally(done);
@@ -103,25 +113,57 @@ describe('api.unit.tests.js', function(){
             fulfillWithExpectedResults(mocked[service][action][fakeOptions.mockFulfill]);
           });
         });
-      });
-      describe ('that will reject with 404', function() {
-        beforeEach(function () {
-
-          fakeOptions.mockReject = "NotFound404";
-
-          toBeTested = require(path.join(rootPath, 'api.js'))(fakeUrl, fakeOptions);
-
-          functionToTest = buildFunctionToTest(service, action);
-        });
-        describe('when called', function () {
+        describe('when called (mocked NotFound404)', function () {
           beforeEach(function (done) {
-            functionToTest({urlParams: urlParams, qsParams: qsParams, body: body})
+
+            fakeOptions.mockReject = "NotFound404";
+
+            toBeTested = require(path.join(rootPath, 'api.js'))(fakeUrl, fakeOptions);
+
+            functionToTest = buildFunctionToTest(service, action);
+
+            functionToTest({
+              urlParams: urlParams,
+              qsParams: qsParams,
+              body: body
+            })
               .then(setFulfilled, setRejected)
               .catch(setCaught)
               .finally(done);
           });
           it('then should reject with expected results', function () {
             rejectWithExpectedResults(mocked[service][action][fakeOptions.mockReject]);
+          });
+        });
+      });
+      describe('given invalid inputs', function () {
+        beforeEach(function () {
+          urlParams = {"bad": "prop"};
+
+          qsParams = {"embed": ["incorrect"]};
+
+          body = settingToNothingSoItWillDefault;
+        });
+        describe('when called (mocked OK200)', function () {
+          beforeEach(function (done) {
+
+            fakeOptions.mockFulfill = "OK200";
+
+            toBeTested = require(path.join(rootPath, 'api.js'))(fakeUrl, fakeOptions);
+
+            functionToTest = buildFunctionToTest(service, action);
+
+            functionToTest({
+              urlParams: urlParams,
+              qsParams: qsParams,
+              body: body
+            })
+              .then(setFulfilled, setRejected)
+              .catch(setCaught)
+              .finally(done);
+          });
+          it('then should reject with expected results', function () {
+            rejectWithExpectedResults('Inputs failed schema validation. Validation Error(s): instance.urlParams additionalProperty "bad" exists in instance when not allowed, instance.qsParams.embed[0] is not one of enum values: apps.tasks,apps.counts,apps.deployments,apps.lastTaskFailure,apps.failures,apps.taskStats');
           });
         });
       });

@@ -101,9 +101,9 @@ module.exports = function utils() {
     });
   };
 
-  var schemaValidate = function(callMarathonInputs, schema) {
+  var schemaValidate = function(inputs, schema) {
     return new Promise(function(fulfill, reject) {
-      var results = validator.validate(callMarathonInputs, schema);
+      var results = validator.validate(inputs, schema);
 
       if (results.valid) {
         return fulfill(results);

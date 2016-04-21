@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "properties": {
+    "prop1": {
+      "type": "object",
+      "properties": {
+        "prop2": {
+          "type": "string"
+        },
+        "prop3": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "enum": [ "rst", "uvw", "xyz" ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false,
+      "required": []
+    }
+  },
+  "additionalProperties": false,
+  "required": ["prop1"]
+}
