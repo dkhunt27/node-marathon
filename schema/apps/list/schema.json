@@ -3,13 +3,12 @@
   "properties": {
     "urlParams": {
       "type": "object",
-      "required": true,
       "properties": {},
-      "additionalProperties": false
+      "additionalProperties": false,
+      "required": []
     },
     "qsParams": {
       "type": "object",
-      "required": true,
       "properties": {
         "cmd": {
           "type": "string"
@@ -29,13 +28,16 @@
           "type": "string"
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "required": []
     },
     "body": {
       "type": "object",
-      "required": true,
       "properties": {},
-      "additionalProperties": false
+      "additionalProperties": false,
+      "required": []
     }
-  }
+  },
+  "additionalProperties": false,
+  "required": ["urlParams", "qsParams", "body"]
 }

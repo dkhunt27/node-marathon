@@ -1,5 +1,4 @@
 {
-  "id": "/SimpleAddress",
   "type": "object",
   "properties": {
     "urlParams": {
@@ -8,16 +7,27 @@
         "appId": {
           "type": "string"
         }
-      }
+      },
+      "additionalProperties": false,
+      "required": ["appId"]
     },
     "qsParams": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "force": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": []
     },
     "body": {
-      "type": "object"
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "required": []
     }
   },
-  "required": [
-    "urlParams"
-  ]
+  "additionalProperties": false,
+  "required": ["urlParams", "qsParams", "body"]
 }

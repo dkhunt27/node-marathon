@@ -1,21 +1,38 @@
 {
-  "id": "/SimpleAddress",
   "type": "object",
   "properties": {
     "urlParams": {
       "type": "object",
       "properties": {
         "appId": {
-          "type": "string",
-          "required": true
+          "type": "string"
         }
-      }
+      },
+      "additionalProperties": false,
+      "required": ["appId"]
     },
     "qsParams": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "embed": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "enum": [ "apps.tasks", "apps.counts", "apps.deployments", "apps.lastTaskFailure", "apps.failures", "apps.taskStats" ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false,
+      "required": []
     },
     "body": {
-      "type": "object"
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "required": []
     }
-  }
+  },
+  "additionalProperties": false,
+  "required": ["urlParams", "qsParams", "body"]
 }
