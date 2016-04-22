@@ -3,12 +3,28 @@
   "version": "0.3.1",
   "description": "Marathon v2 API client for Node.js",
   "main": "api.js",
+  "author": "Dan Hunt <dkhunt27@gmail.com>",
+  "files": [
+    "gulpTasks",
+    "mock",
+    "schema",
+    "tests",
+    "api.js",
+    "apiMap.json",
+    "gulpfile.js",
+    "package.json",
+    "README.md",
+    "utils.js"
+  ],
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha ./tests/*.unit.tests.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dkhunt27/node-marathon.git"
+  },
+  "publishConfig": {
+    "registry":"https://registry.npmjs.org/"
   },
   "bugs": {
     "url": "https://github.com/dkhunt27/node-marathon/issues"
@@ -18,8 +34,7 @@
     "bluebird": "3.3.5",
     "handlebars": "4.0.5",
     "jsonschema": "1.1.0",
-    "request-promise": "3.0.0",
-    "walk-sync": "0.2.6"
+    "request-promise": "3.0.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
@@ -38,6 +53,8 @@
     "sinon": "1.17.3",
     "sinon-as-promised": "4.0.0",
     "through2": "2.0.1",
-    "underscore": "1.8.3"
-  }
+    "underscore": "1.8.3",
+    "walk-sync": "0.2.6"
+  },
+  "license": "MIT"
 }
