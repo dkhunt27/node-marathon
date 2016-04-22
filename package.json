@@ -1,6 +1,6 @@
 {
   "name": "node-marathon",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Marathon v2 API client for Node.js",
   "main": "api.js",
   "author": "Dan Hunt <dkhunt27@gmail.com>",
@@ -15,6 +15,9 @@
     "package.json",
     "README.md",
     "utils.js"
+  ],
+  "keywords" :[
+    "marathon"
   ],
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha ./tests/*.unit.tests.js"
