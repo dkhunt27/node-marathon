@@ -1,6 +1,6 @@
 {
   "name": "node-marathon",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Marathon v2 API client for Node.js",
   "main": "api.js",
   "scripts": {
@@ -35,6 +35,8 @@
     "jshint-stylish": "2.1.0",
     "mocha": "2.4.5",
     "run-sequence": "1.1.5",
+    "sinon": "1.17.3",
+    "sinon-as-promised": "4.0.0",
     "through2": "2.0.1",
     "underscore": "1.8.3"
   }

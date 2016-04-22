@@ -16,7 +16,7 @@ describe('api.unit.tests.js', function(){
 
   expect(rootPath.slice(rootFolder.length * -1), 'rootPath').to.equal(rootFolder);    //make sure the rootPath is correct
 
-  var fakeUrl, fakeOptions, functionToTest, service, action, urlParams, qsParams, body, settingToNothingSoItWillDefault, sinoned;
+  var fakeUrl, fakeOptions, functionToTest, service, action, urlParams, qsParams, body, settingToNothingSoItWillDefault, sinoned, expected;
 
   var Promise = require("bluebird");
   var utils = require(path.join(rootPath, 'utils.js'));
@@ -51,15 +51,43 @@ describe('api.unit.tests.js', function(){
     };
   };
 
-  var fulfillWithExpectedResults = function(expected) {
+  var fulfillWithExpectedResults = function(expected, expOnly) {
+
+    var exp = expected;
+
+    if (!expOnly) {
+      exp = {
+        inputs: {
+          urlParams: urlParams ? urlParams : {},
+          qsParams: qsParams ? qsParams : {},
+          body: body ? body : {}
+        },
+        output: expected
+      };
+    }
+
     expect(caught, 'caught').to.equal(null);
     expect(rejected, 'rejected').to.equal(null);
-    expect(fulfilled, 'fulfilled').to.deep.equal(expected);
+    expect(fulfilled, 'fulfilled').to.deep.equal(exp);
   };
 
-  var rejectWithExpectedResults = function(expected) {
+  var rejectWithExpectedResults = function(expected, expOnly) {
+
+    var exp = expected;
+
+    if (!expOnly) {
+      exp = {
+        inputs: {
+          urlParams: urlParams ? urlParams : {},
+          qsParams: qsParams ? qsParams : {},
+          body: body ? body : {}
+        },
+        output: expected
+      };
+    }
+
     expect(caught, 'caught').to.equal(null);
-    expect(rejected, 'rejected').to.deep.equal(expected);
+    expect(rejected, 'rejected').to.deep.equal(exp);
     expect(fulfilled, 'fulfilled').to.equal(null);
   };
 
@@ -75,6 +103,7 @@ describe('api.unit.tests.js', function(){
     urlParams = {};
     qsParams = {};
     body = {};
+    expected=null;
   });
 
   afterEach(function() {
@@ -173,7 +202,7 @@ describe('api.unit.tests.js', function(){
                 .finally(done);
             });
             it('then should reject with expected results', function () {
-              rejectWithExpectedResults('Inputs failed schema validation. Validation Error(s): instance.urlParams additionalProperty "bad" exists in instance when not allowed, instance.qsParams.embed[0] is not one of enum values: apps.tasks,apps.counts,apps.deployments,apps.lastTaskFailure,apps.failures,apps.taskStats');
+              rejectWithExpectedResults('Inputs failed schema validation. Validation Error(s): instance.urlParams additionalProperty "bad" exists in instance when not allowed, instance.qsParams.embed[0] is not one of enum values: apps.tasks,apps.counts,apps.deployments,apps.lastTaskFailure,apps.failures,apps.taskStats', true);
             });
           });
         });

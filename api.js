@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function Marathon(url, opts) {
-  
+
   var Promise = require('bluebird');
   var utils = require("./utils.js");
 
@@ -80,13 +80,26 @@ module.exports = function Marathon(url, opts) {
           // VALIDATE MOCK INPUTS
           return utils.validateMockInputs(opts, mock4Action).then(function() {
 
+            var results = {
+              inputs: {
+                urlParams: urlParams,
+                qsParams: qsParams,
+                body: body
+              },
+              output: {}
+            };
+
             if (opts.mockReject) {
 
-              return reject(mock4Action[opts.mockReject]);
+              results.output = mock4Action[opts.mockReject];
+
+              return reject(results);
 
             } else {
 
-              return fulfill(mock4Action[opts.mockFulfill]);
+              results.output = mock4Action[opts.mockFulfill];
+
+              return fulfill(results);
 
             }
 

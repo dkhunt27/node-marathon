@@ -17,5 +17,8 @@
       "method": "POST",
       "path": "/v2/apps"
     }
+  },
+  "groups": {
+
   }
 }
