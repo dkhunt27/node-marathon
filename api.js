@@ -63,7 +63,8 @@ module.exports = function Marathon(url, opts) {
               useQuerystring: true,
               body: body,
               simple: true,
-              json: true
+              json: true,
+              headers: opts.headers
             };
 
             // THEN CALL MARATHON
