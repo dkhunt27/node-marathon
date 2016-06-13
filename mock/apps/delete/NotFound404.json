@@ -1,0 +1,4 @@
+{
+  "statusCode": 404,
+  "message":"App '/some/non/existent/app' does not exist"
+}

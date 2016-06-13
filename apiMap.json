@@ -1,16 +1,48 @@
 {
   "apps": {
+    "configuration": {
+      "method": "GET",
+      "path": "/v2/apps/{{appId}}/versions/{{version}}"
+    },
+    "create": {
+      "method": "POST",
+      "path": "/v2/apps"
+    },
+    "delete": {
+      "method": "DELETE",
+      "path": "/v2/apps/{{appId}}"
+    },
+    "deleteTask": {
+      "method": "DELETE",
+      "path": "/v2/apps/{{appId}}/tasks/{{taskId}}"
+    },
+    "deleteTasks": {
+      "method": "DELETE",
+      "path": "/v2/apps/{{appId}}/tasks"
+    },
+    "get": {
+      "method": "GET",
+      "path": "/v2/apps/{{appId}}"
+    },
     "list": {
       "method": "GET",
       "path": "/v2/apps"
     },
-    "getById": {
-      "method": "GET",
-      "path": "/v2/apps/{{appId}}"
-    },
     "restart": {
       "method": "POST",
       "path": "/v2/apps/{{appId}}/restart"
+    },
+    "tasks": {
+      "method": "GET",
+      "path": "/v2/apps/{{appId}}/tasks"
+    },
+    "update": {
+      "method": "PUT",
+      "path": "/v2/apps/{{appId}}"
+    },
+    "versions": {
+      "method": "GET",
+      "path": "/v2/apps/{{appId}}/versions"
     }
   }
 }

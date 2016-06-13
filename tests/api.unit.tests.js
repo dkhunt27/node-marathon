@@ -207,9 +207,9 @@ describe('api.unit.tests.js', function(){
           });
         });
       });
-      describe('getById', function () {
+      describe('get', function () {
         beforeEach(function () {
-          action = "getById";
+          action = "get";
         });
         describe('that will fulfill with 200', function () {
           beforeEach(function () {
