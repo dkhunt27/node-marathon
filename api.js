@@ -136,6 +136,48 @@ module.exports = function Marathon(url, opts) {
 
   return {
     apps: {
+      configuration: function (fnInputs) {
+        return callMarathon({
+          service: "apps",
+          action: "configuration",
+          inputs: fnInputs
+        });
+      },
+      create: function (fnInputs) {
+        return callMarathon({
+          service: "apps",
+          action: "create",
+          inputs: fnInputs
+        });
+      },
+      delete: function (fnInputs) {
+        return callMarathon({
+          service: "apps",
+          action: "delete",
+          inputs: fnInputs
+        });
+      },
+      deleteTask: function (fnInputs) {
+        return callMarathon({
+          service: "apps",
+          action: "deleteTask",
+          inputs: fnInputs
+        });
+      },
+      deleteTasks: function (fnInputs) {
+        return callMarathon({
+          service: "apps",
+          action: "deleteTasks",
+          inputs: fnInputs
+        });
+      },
+      get: function (fnInputs) {
+        return callMarathon({
+          service: "apps",
+          action: "get",
+          inputs: fnInputs
+        });
+      },
       list: function (fnInputs) {
         return callMarathon({
           service: "apps",
@@ -143,17 +185,31 @@ module.exports = function Marathon(url, opts) {
           inputs: fnInputs
         });
       },
-      getById: function (fnInputs) {
-        return callMarathon({
-          service: "apps",
-          action: "getById",
-          inputs: fnInputs
-        });
-      },
       restart: function (fnInputs) {
         return callMarathon({
           service: "apps",
           action: "restart",
+          inputs: fnInputs
+        });
+      },
+      tasks: function (fnInputs) {
+        return callMarathon({
+          service: "apps",
+          action: "tasks",
+          inputs: fnInputs
+        });
+      },
+      update: function (fnInputs) {
+        return callMarathon({
+          service: "apps",
+          action: "update",
+          inputs: fnInputs
+        });
+      },
+      versions: function (fnInputs) {
+        return callMarathon({
+          service: "apps",
+          action: "versions",
           inputs: fnInputs
         });
       }

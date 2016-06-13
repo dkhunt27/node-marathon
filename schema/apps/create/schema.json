@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "urlParams": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "required": []
+    },
+    "qsParams": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "required": []
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true,
+      "required": ["id"]
+    }
+  },
+  "additionalProperties": false,
+  "required": ["urlParams", "qsParams", "body"]
+}

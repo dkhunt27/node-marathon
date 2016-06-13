@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "properties": {
+    "urlParams": {
+      "type": "object",
+      "properties": {
+        "appId": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["appId", "version"]
+    },
+    "qsParams": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "required": []
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "required": []
+    }
+  },
+  "additionalProperties": false,
+  "required": ["urlParams", "qsParams", "body"]
+}
