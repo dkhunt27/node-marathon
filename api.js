@@ -26,13 +26,6 @@ module.exports = function Marathon(url, opts) {
 
         apiMap4Action = apiMap4ActionTemp;
 
-        // THEN LOAD MOCK FOR SERVICE/ACTION
-        return utils.loadMock(service, action);
-
-      }).then(function(mock4ActionTemp) {
-
-        mock4Action = mock4ActionTemp;
-
         // THEN LOAD SCHEMA FOR SERVICE/ACTION
         return utils.loadSchema(service, action);
 
@@ -79,7 +72,13 @@ module.exports = function Marathon(url, opts) {
           // THIS IS A MOCK CALL
 
           // VALIDATE MOCK INPUTS
-          return utils.validateMockInputs(opts, mock4Action).then(function() {
+
+          // THEN LOAD MOCK FOR SERVICE/ACTION
+          return utils.loadMock(service, action).then(function(mock4Action) {
+
+            return utils.validateMockInputs(opts, mock4Action);
+
+          }).then(function() {
 
             var results = {
               inputs: {
@@ -105,6 +104,7 @@ module.exports = function Marathon(url, opts) {
             }
 
           });
+
         }
       }).catch(function (caught) {
 
