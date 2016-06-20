@@ -22,9 +22,13 @@
     },
     "body": {
       "type": "object",
-      "properties": {},
-      "additionalProperties": false,
-      "required": []
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true,
+      "required": ["id"]
     }
   },
   "additionalProperties": false,
