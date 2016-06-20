@@ -1,6 +1,6 @@
 {
   "name": "node-marathon",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Marathon v2 API client for Node.js",
   "main": "api.js",
   "author": "Dan Hunt <dkhunt27@gmail.com>",

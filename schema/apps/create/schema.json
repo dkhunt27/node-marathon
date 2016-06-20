@@ -9,7 +9,11 @@
     },
     "qsParams": {
       "type": "object",
-      "properties": {},
+      "properties": {
+        "force": {
+          "type": "boolean"
+        }
+      },
       "additionalProperties": false,
       "required": []
     },
