@@ -391,12 +391,12 @@ describe('api.unit.tests.js', function(){
         it('then should call with expected path', function () {
           expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
           expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(true);
-          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(true);
           expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(true);
           expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(true);
           expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(true);
           expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(true);
           expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(true);
+          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(false);
           expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(false);
         });
       });
@@ -428,12 +428,12 @@ describe('api.unit.tests.js', function(){
         it('then should call with expected path', function () {
           expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
           expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(false);
-          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(false);
           expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(false);
           expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(false);
           expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(false);
           expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(false);
           expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(false);
+          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(false);
           expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(false);
         });
       });
@@ -465,49 +465,12 @@ describe('api.unit.tests.js', function(){
         it('then should call with expected path', function () {
           expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
           expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(true);
+          expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(false);
+          expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(false);
+          expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(false);
+          expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(false);
+          expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(false);
           expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(false);
-          expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(false);
-          expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(false);
-          expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(false);
-          expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(false);
-          expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(false);
-          expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(false);
-        });
-      });
-    });
-    describe ('loadMock rejects', function() {
-      beforeEach(function () {
-
-        sinoned.loadApiMap = sinon.stub(utils, "loadApiMap").resolves("loadApiMap");
-        sinoned.parseApiMap = sinon.stub(utils, "parseApiMap").resolves("parseApiMap");
-        sinoned.loadMock = sinon.stub(utils, "loadMock").rejects("loadMock");
-        sinoned.loadSchema = sinon.stub(utils, "loadSchema").resolves("loadSchema");
-        sinoned.schemaValidate = sinon.stub(utils, "schemaValidate").resolves("schemaValidate");
-        sinoned.buildUrlPath = sinon.stub(utils, "buildUrlPath").resolves("buildUrlPath");
-        sinoned.buildMarathonUrl = sinon.stub(utils, "buildMarathonUrl").resolves("buildMarathonUrl");
-        sinoned.makeRequest = sinon.stub(utils, "makeRequest").resolves("makeRequest");
-        sinoned.validateMockInputs = sinon.stub(utils, "validateMockInputs").resolves("validateMockInputs");
-
-        toBeTested = require(path.join(rootPath, 'api.js'))(fakeUrl, fakeOptions);
-
-        functionToTest = buildFunctionToTest(service, action);
-      });
-      describe('when called', function () {
-        beforeEach(function (done) {
-          functionToTest({urlParams: urlParams, qsParams: qsParams, body: body})
-            .then(setFulfilled, setRejected)
-            .catch(setCaught)
-            .finally(done);
-        });
-        it('then should call with expected path', function () {
-          expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
-          expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(true);
-          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(true);
-          expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(false);
-          expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(false);
-          expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(false);
-          expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(false);
-          expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(false);
           expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(false);
         });
       });
@@ -539,12 +502,12 @@ describe('api.unit.tests.js', function(){
         it('then should call with expected path', function () {
           expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
           expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(true);
-          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(true);
           expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(true);
           expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(false);
           expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(false);
           expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(false);
           expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(false);
+          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(false);
           expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(false);
         });
       });
@@ -576,12 +539,12 @@ describe('api.unit.tests.js', function(){
         it('then should call with expected path', function () {
           expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
           expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(true);
-          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(true);
           expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(true);
           expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(true);
           expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(false);
           expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(false);
           expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(false);
+          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(false);
           expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(false);
         });
       });
@@ -613,12 +576,12 @@ describe('api.unit.tests.js', function(){
         it('then should call with expected path', function () {
           expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
           expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(true);
-          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(true);
           expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(true);
           expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(true);
           expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(true);
           expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(false);
           expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(false);
+          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(false);
           expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(false);
         });
       });
@@ -650,12 +613,12 @@ describe('api.unit.tests.js', function(){
         it('then should call with expected path', function () {
           expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
           expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(true);
-          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(true);
           expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(true);
           expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(true);
           expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(true);
           expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(true);
           expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(false);
+          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(false);
           expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(false);
         });
       });
@@ -687,12 +650,49 @@ describe('api.unit.tests.js', function(){
         it('then should call with expected path', function () {
           expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
           expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(true);
-          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(true);
           expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(true);
           expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(true);
           expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(true);
           expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(true);
           expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(true);
+          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(false);
+          expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(false);
+        });
+      });
+    });
+    describe ('loadMock rejects', function() {
+      beforeEach(function () {
+
+        sinoned.loadApiMap = sinon.stub(utils, "loadApiMap").resolves("loadApiMap");
+        sinoned.parseApiMap = sinon.stub(utils, "parseApiMap").resolves("parseApiMap");
+        sinoned.loadMock = sinon.stub(utils, "loadMock").rejects("loadMock");
+        sinoned.loadSchema = sinon.stub(utils, "loadSchema").resolves("loadSchema");
+        sinoned.schemaValidate = sinon.stub(utils, "schemaValidate").resolves("schemaValidate");
+        sinoned.buildUrlPath = sinon.stub(utils, "buildUrlPath").resolves("buildUrlPath");
+        sinoned.buildMarathonUrl = sinon.stub(utils, "buildMarathonUrl").resolves("buildMarathonUrl");
+        sinoned.makeRequest = sinon.stub(utils, "makeRequest").resolves("makeRequest");
+        sinoned.validateMockInputs = sinon.stub(utils, "validateMockInputs").resolves("validateMockInputs");
+
+        toBeTested = require(path.join(rootPath, 'api.js'))(fakeUrl, fakeOptions);
+
+        functionToTest = buildFunctionToTest(service, action);
+      });
+      describe('when called', function () {
+        beforeEach(function (done) {
+          functionToTest({urlParams: urlParams, qsParams: qsParams, body: body})
+            .then(setFulfilled, setRejected)
+            .catch(setCaught)
+            .finally(done);
+        });
+        it('then should call with expected path', function () {
+          expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
+          expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(true);
+          expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(true);
+          expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(true);
+          expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(true);
+          expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(true);
+          expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(true);
+          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(false);
           expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(false);
         });
       });
@@ -726,12 +726,12 @@ describe('api.unit.tests.js', function(){
         it('then should call with expected path', function () {
           expect(sinoned.loadApiMap.calledOnce, "sinoned.loadApiMap.calledOnce").to.equal(true);
           expect(sinoned.parseApiMap.calledOnce, "sinoned.parseApiMap.calledOnce").to.equal(true);
-          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(true);
           expect(sinoned.loadSchema.calledOnce, "sinoned.loadSchema.calledOnce").to.equal(true);
           expect(sinoned.schemaValidate.calledOnce, "sinoned.schemaValidate.calledOnce").to.equal(true);
           expect(sinoned.buildUrlPath.calledOnce, "sinoned.buildUrlPath.calledOnce").to.equal(false);
           expect(sinoned.buildMarathonUrl.calledOnce, "sinoned.buildMarathonUrl.calledOnce").to.equal(false);
           expect(sinoned.makeRequest.calledOnce, "sinoned.makeRequest.calledOnce").to.equal(false);
+          expect(sinoned.loadMock.calledOnce, "sinoned.loadMock.calledOnce").to.equal(true);
           expect(sinoned.validateMockInputs.calledOnce, "sinoned.validateMockInputs.calledOnce").to.equal(true);
         });
       });

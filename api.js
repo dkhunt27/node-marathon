@@ -74,7 +74,9 @@ module.exports = function Marathon(url, opts) {
           // VALIDATE MOCK INPUTS
 
           // THEN LOAD MOCK FOR SERVICE/ACTION
-          return utils.loadMock(service, action).then(function(mock4Action) {
+          return utils.loadMock(service, action).then(function(mock4ActionTemp) {
+
+            mock4Action = mock4ActionTemp;
 
             return utils.validateMockInputs(opts, mock4Action);
 
